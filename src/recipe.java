@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class recipe {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+        String recipeTitle, recipeDesc, recipePreparedBy, recipeIngredients, recipeCategory;
         while(true){
             System.out.println("Recipe Management App");
             System.out.println("1. Add a Recipe");
@@ -23,6 +24,39 @@ public class recipe {
             switch (choice){
                 case 1:
                     System.out.println("Add a Recipe");
+
+                    System.out.println("Enter the Recipe Name: ");
+                    recipeTitle = input.next();
+                    System.out.println("Enter the Recipe Description: ");
+                    recipeDesc = input.next();
+                    System.out.println("Recipe prepared by: ");
+                    recipePreparedBy = input.next();
+                    System.out.println("Ingredients : ");
+                    recipeIngredients = input.next();
+                    System.out.println("Recipe Category(veg/nonveg): ");
+                    recipeCategory = input.next();
+
+
+                    try{
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root","");
+                        String sql = "INSERT INTO `recipes`(`title`, `description`, `preparedby`, `ingredients`, `recipecategory`) VALUES (?,?,?,?,?)";
+                        PreparedStatement stmt = con.prepareStatement(sql);
+                        stmt.setString(1,recipeTitle);
+                        stmt.setString(2,recipeDesc);
+                        stmt.setString(3,recipePreparedBy);
+                        stmt.setString(4,recipeIngredients);
+                        stmt.setString(5,recipeCategory);
+                        stmt.executeUpdate();
+                        System.out.println("Recipe created...");
+
+
+                    }
+                    catch (Exception e){
+                        System.out.println(e);
+                    }
+
+
 
 
 
