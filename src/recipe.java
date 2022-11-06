@@ -181,6 +181,29 @@ public class recipe {
 
                 case 6:
                     System.out.println("Display total recipes in each category");
+                    try{
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb","root","");
+                        String sql ="SELECT COUNT(*)AS total,`recipecategory` FROM `recipes`  GROUP BY `recipecategory`";
+                        Statement stmt = con.createStatement();
+                        ResultSet rs = stmt.executeQuery(sql);
+                        System.out.println("-------------------------------------");
+                        while(rs.next()){
+                            String fetchTotal = rs.getString("total");
+                            String fetchCategory = rs.getString("recipecategory");
+
+
+                            System.out.print("Total  : "+fetchTotal+" |");
+                            System.out.print(" Category : "+fetchCategory+"\n");
+
+
+
+                        }
+                        System.out.println("-------------------------------------");
+                    }
+                    catch (Exception e){
+                        System.out.println(e);
+                    }
 
 
                     break;
