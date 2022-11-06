@@ -210,6 +210,35 @@ public class recipe {
 
                 case 7:
                     System.out.println("View recipes in a specific category");
+                    System.out.println("Enter the category search: ");
+                    recipeCategory = input.next();
+
+                    try{
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "");
+                        String sql = "SELECT  `title`, `description`, `preparedby`, `ingredients` FROM `recipes` WHERE `recipecategory` = '"+recipeCategory+"'";
+
+
+                        Statement stmt = con.createStatement();
+                        ResultSet rs = stmt.executeQuery(sql);
+                        while(rs.next()){
+                            String fetchRecipeName = rs.getString("title");
+                            String fetchRecipeDesc = rs.getString("description");
+                            String fetchRecipePreparedBy = rs.getString("preparedby");
+                            String fetchRecipeIngredients = rs.getString("ingredients");
+
+
+                            System.out.println("Recipe Name: "+fetchRecipeName);
+                            System.out.println("Description : "+fetchRecipeDesc);
+                            System.out.println("Prepared By : "+fetchRecipePreparedBy);
+                            System.out.println("Ingredients : "+fetchRecipeIngredients+"\n");
+
+                        }
+
+                    }
+                    catch (Exception e){
+                        System.out.println(e);
+                    }
 
                     break;
                 case 8:
