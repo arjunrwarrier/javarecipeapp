@@ -243,6 +243,36 @@ public class recipe {
                     break;
                 case 8:
                     System.out.println("Search a recipe using first letter");
+                    System.out.println("Enter the first letter to search: ");
+                    String recipeLetter = input.next();
+
+                    try{
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "");
+                        String sql = "SELECT  `title`, `description`, `preparedby`, `ingredients`, `recipecategory` FROM `recipes` WHERE `title` LIKE'"+recipeLetter+"%'";
+
+
+                        Statement stmt = con.createStatement();
+                        ResultSet rs = stmt.executeQuery(sql);
+                        while(rs.next()){
+                            String fetchRecipeName = rs.getString("title");
+                            String fetchRecipeDesc = rs.getString("description");
+                            String fetchRecipePreparedBy = rs.getString("preparedby");
+                            String fetchRecipeIngredients = rs.getString("ingredients");
+                            String fetchRecipeCategory = rs.getString("recipecategory");
+
+                            System.out.println("Recipe Name: "+fetchRecipeName);
+                            System.out.println("Description : "+fetchRecipeDesc);
+                            System.out.println("Prepared By : "+fetchRecipePreparedBy);
+                            System.out.println("Ingredients : "+fetchRecipeIngredients);
+                            System.out.println("Category : "+fetchRecipeCategory+"\n");
+
+                        }
+
+                    }
+                    catch (Exception e){
+                        System.out.println(e);
+                    }
 
 
                     break;
